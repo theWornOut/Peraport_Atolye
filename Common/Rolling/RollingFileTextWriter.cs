@@ -24,7 +24,7 @@ namespace Common.Rolling
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
-                    throw new ArgumentNullException("Path   boş olmamalıdır.");
+                    throw new ArgumentNullException("Path boş olmamalıdır.");
                 }
                 var pathInvalidChars = System.IO.Path.GetInvalidPathChars();
                 pathInvalidChars.ToList().ForEach(f =>

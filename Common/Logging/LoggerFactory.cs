@@ -30,7 +30,6 @@ namespace Common.Logging
                 {
                     yield return Activator.CreateInstance(type.Value) as ILogger;
                 }
-
             }
         }
     }

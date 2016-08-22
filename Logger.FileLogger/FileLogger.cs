@@ -11,10 +11,16 @@ namespace Logger.FileLoggerImpl
         public FileLogger(IRollingFileTextWriter fileTextWriter)
         {
             _fileTextWriter = fileTextWriter;
-            LogFileSize = 100000000;
         }
 
-        public int LogFileSize { get; set; }
+        public int LogFileSize
+        {
+            get { return LogFileSize; }
+            set
+            {
+                LogFileSize = 10000000;
+            }
+        }
 
 
         public async void Log(LogLevel level, int eventId, string message)
