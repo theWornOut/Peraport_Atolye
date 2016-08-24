@@ -7,7 +7,6 @@ namespace Logger.FileLoggerImpl
     public class FileLogger : ILogger
     {
         private readonly IRollingFileTextWriter _fileTextWriter;
-
         public FileLogger(IRollingFileTextWriter fileTextWriter)
         {
             _fileTextWriter = fileTextWriter;
