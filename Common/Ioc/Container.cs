@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Common.Exceptions;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace Common.Ioc
 {
@@ -20,13 +20,11 @@ namespace Common.Ioc
         }
 
         public IDictionary<string, object> RegisteredObjects { get; }
-
         public T Resolve<T>(string name) where T : class
         {
             var targetType = typeof(T);
             return Resolve(name, targetType) as T;
         }
-
 
         public object Resolve(Type type)
         {
@@ -45,7 +43,6 @@ namespace Common.Ioc
             return types.FirstOrDefault();
         }
 
-
         public void Register<T>(string name, object[] parameterValue)
         {
             var targetType = typeof(T);
@@ -54,24 +51,21 @@ namespace Common.Ioc
 
         public void Register(string name, Type type, params object[] parameterValue)
         {
-
             if (parameterValue.Any())
             {
                 var cnstrMethod = type.GetConstructor(Type.EmptyTypes);
-                if (cnstrMethod == null) throw new Exception(); ;
+                if (cnstrMethod == null) new PeraportException("Null değer", new ArgumentNullException());
                 var instance = cnstrMethod.Invoke(null);
                 RegisteredObjects.Add(name, instance);
                 return;
             }
 
             var construtorTypes = parameterValue.Select(w => w.GetType()).ToArray();
-
             var targetConstructor = type.GetConstructor(construtorTypes);
             //todo:Yeni bir exception yazalım.Ve ona uygun mesajlarla atsın.
-            if (targetConstructor == null) throw new Exception();
+            if (targetConstructor == null) new PeraportException("Constructor Null", new ArgumentNullException());
             var targetInstance = targetConstructor.Invoke(parameterValue);
             RegisteredObjects.Add(name, targetInstance);
-
         }
 
         public IEnumerable<T> ResolveAll<T>()

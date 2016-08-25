@@ -4,24 +4,23 @@ using System.Configuration;
 using System.Linq;
 using Common.Logging.ConfigurationSections;
 using Common.Logging.Interfaces;
+using Common.Exceptions;
 
 namespace Common.Logging
 {
-    public  class LoggerFactory : ILoggerFactory
+    public class LoggerFactory : ILoggerFactory
     {
-
-        public  LoggerWriter CreateLogWriter()
+        public LoggerWriter CreateLogWriter()
         {
             var lggers = GetLoggers();
             return new LoggerWriter(lggers.ToArray());
         }
 
-
         IEnumerable<ILogger> GetLoggers()
         {
             var loggerConfigSection = ConfigurationManager.GetSection("LoggerSection") as LoggerConfigurationSection;
             //todo:Unutulanlar unutanlarý asla unutmaz.
-            if (loggerConfigSection == null) throw new Exception();
+            if (loggerConfigSection == null) new PeraportException("Config ayarlarýnda null sýkýntýsý var", new ArgumentNullException());
             var loggerDictionary =
                 loggerConfigSection.Loggers.Cast<LoggerConfigurationElement>()
                     .ToDictionary(k => k.Name, element => element.Type);
