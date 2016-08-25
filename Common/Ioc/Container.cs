@@ -38,7 +38,7 @@ namespace Common.Ioc
             if (!types.Any()) return RegisteredObjects[name];
             if (types.Count() > 1)
             {
-                throw new Exception();
+                var peraportException = new PeraportException("Değer 1'den büyük", new ArgumentOutOfRangeException());
             }
             return types.FirstOrDefault();
         }
@@ -51,21 +51,32 @@ namespace Common.Ioc
 
         public void Register(string name, Type type, params object[] parameterValue)
         {
-            if (parameterValue.Any())
+            if (parameterValue != null && parameterValue.Any())
             {
                 var cnstrMethod = type.GetConstructor(Type.EmptyTypes);
-                if (cnstrMethod == null) new PeraportException("Null değer", new ArgumentNullException());
+                if (cnstrMethod == null)
+                {
+                    var peraportException = new PeraportException("Null değer", new ArgumentNullException());
+                }
+                if (cnstrMethod == null) return;
                 var instance = cnstrMethod.Invoke(null);
                 RegisteredObjects.Add(name, instance);
                 return;
             }
 
-            var construtorTypes = parameterValue.Select(w => w.GetType()).ToArray();
-            var targetConstructor = type.GetConstructor(construtorTypes);
-            //todo:Yeni bir exception yazalım.Ve ona uygun mesajlarla atsın.
-            if (targetConstructor == null) new PeraportException("Constructor Null", new ArgumentNullException());
-            var targetInstance = targetConstructor.Invoke(parameterValue);
-            RegisteredObjects.Add(name, targetInstance);
+            if (parameterValue != null)
+            {
+                var construtorTypes = parameterValue.Select(w => w.GetType()).ToArray();
+                var targetConstructor = type.GetConstructor(construtorTypes);
+                //todo:Yeni bir exception yazalım.Ve ona uygun mesajlarla atsın.
+                if (targetConstructor == null)
+                {
+                    var peraportException = new PeraportException("Constructor Null", new ArgumentNullException());
+                }
+                if (targetConstructor == null) return;
+                var targetInstance = targetConstructor.Invoke(parameterValue);
+                RegisteredObjects.Add(name, targetInstance);
+            }
         }
 
         public IEnumerable<T> ResolveAll<T>()
