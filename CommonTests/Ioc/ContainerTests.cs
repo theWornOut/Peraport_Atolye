@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Common.Ioc;
 using CommonTests.ExampleTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -20,17 +19,13 @@ namespace CommonTests.Ioc
         [TestMethod()]
         public void ResolveTest()
         {
-            IContainer container = new Container();
-            container.Register("ekrem", typeof(Person));
-            container.Resolve("ekrem", typeof(Person));
+
         }
 
         [TestMethod()]
         public void ResolveTest1()
         {
-            IContainer container = new Container();
-            container.Register<Person>("ekrem");
-            container.Resolve<Person>("ekrem");
+
         }
 
         [TestMethod()]
@@ -50,10 +45,10 @@ namespace CommonTests.Ioc
         {
             IContainer container = new Container();
             container.Register<Person>("ayca", null);
-            /*var person = container.Resolve<Person>("ayca");
+            var person = container.Resolve<Person>("ayca");
             Assert.IsNotNull(person);
             Assert.IsNotNull(container.RegisteredObjects);
-            Assert.AreEqual(container.RegisteredObjects.Any(), true);*/
+            Assert.AreEqual(container.RegisteredObjects.Any(), true);
         }
 
         [TestMethod()]
@@ -62,9 +57,9 @@ namespace CommonTests.Ioc
             IContainer container = new Container();
             container.Register<Person>("ayca", new object[] { "Ayça", "ÖNAY" });
             var person = container.Resolve<Person>("ayca");
-            /*Assert.IsNotNull(person);
+            Assert.IsNotNull(person);
             Assert.AreEqual(person.Name, "Ayça");
-            Assert.AreEqual(person.LastName, "ÖNAY");*/
+            Assert.AreEqual(person.LastName, "ÖNAY");
         }
 
         [TestMethod()]
@@ -73,9 +68,9 @@ namespace CommonTests.Ioc
             IContainer container = new Container();
             container.Register("ayca", typeof(Person), new object[] { "Ayça", "ÖNAY" });
             var person = container.Resolve<Person>("ayca");
-            /*Assert.IsNotNull(person);
+            Assert.IsNotNull(person);
             Assert.AreEqual(person.Name, "Ayça");
-            Assert.AreEqual(person.LastName, "ÖNAY");*/
+            Assert.AreEqual(person.LastName, "ÖNAY");
         }
 
         [TestMethod()]
