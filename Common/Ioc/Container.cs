@@ -51,7 +51,7 @@ namespace Common.Ioc
 
         public void Register(string name, Type type, params object[] parameterValue)
         {
-            if (parameterValue.Any())
+            if (!parameterValue.Any())
             {
                 var cnstrMethod = type.GetConstructor(Type.EmptyTypes);
                 if (cnstrMethod == null) new PeraportException("Null değer", new ArgumentNullException());

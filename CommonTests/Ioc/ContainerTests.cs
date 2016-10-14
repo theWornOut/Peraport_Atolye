@@ -45,7 +45,7 @@ namespace CommonTests.Ioc
         public void RegisterTest()
         {
             IContainer container = new Container();
-            container.Register<Person>("ayca", null);
+            container.Register<Person>("ayca");
             var person = container.Resolve<Person>("ayca");
             Assert.IsNotNull(person);
             Assert.IsNotNull(container.RegisteredObjects);
